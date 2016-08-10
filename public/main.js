@@ -54,11 +54,9 @@ $(document).ready(function () {
         }
         console.log(guessBox.val());
         guessBox.val('');
-
+        socket.emit('showInput', guessBox);
     };
-
+    socket.on('guess', guessBox);
     guessBox = $('#guess input');
     guessBox.on('keydown', onKeyDown);
-    socket.emit('guess', guessBox);
-    socket.on('guess', onKeyDown);
 });
