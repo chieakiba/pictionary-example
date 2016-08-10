@@ -1,5 +1,17 @@
 //global variables
 var socket = io();
+var guessBox;
+
+var onKeyDown = function (event) {
+    if (event.keyCode != 13) { //Enter
+        return;
+    }
+    console.log(guessBox.val());
+    guessBox.val('');
+};
+
+guessBox = $('#guess input');
+guessBox.on('keydown', onKeyDown);
 
 var pictionary = function () {
     var canvas, context;
