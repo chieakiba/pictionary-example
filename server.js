@@ -16,14 +16,14 @@ io.on('connection', function (socket) {
     });
 
     socket.on('showInput', function (guessBox) {
-        console.log('onKeyDown', guessBox);
+        console.log('What\'s in the guess box?', guessBox);
         socket.broadcast.emit('guess', guessBox);
     });
 
-    socket.on('userGuess', function (input) {
-        console.log('guess', input);
-        socket.broadcast.emit('guess', input);
-    });
+//    socket.on('userGuess', function (onKeyDown) {
+            //        console.log('guess', onKeyDown);
+            //        socket.broadcast.emit('guess', onKeyDown);
+            //    });
 
     socket.on('error', function (error) {
         console.log('What is the error? ', error);

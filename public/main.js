@@ -1,13 +1,26 @@
 //global variables
 var socket = io();
-var guessBox;
-
-
 
 var pictionary = function () {
     var canvas, context;
+    var guessBox;
     var drawing;
 
+    //Function for when user hits enter for the guess input
+    var onKeyDown = function (event) {
+        if (event.keyCode != 13) { //Enter
+            return;
+        }
+        console.log(guessBox.val());
+        guessBox.val('');
+        socket.emit('showInput', guessBox);
+    };
+
+    guessBox = $('#guess input');
+    guessBox.on('keydown', onKeyDown);
+    socket.on('guess', guessBox);
+
+    //When user draws in the canvas
     var draw = function (position) {
         context.beginPath();
         context.arc(position.x, position.y, 6, 0, 2 * Math.PI);
@@ -19,44 +32,36 @@ var pictionary = function () {
     canvas[0].width = canvas[0].offsetWidth;
     canvas[0].height = canvas[0].offsetHeight;
 
+    //When user unclicks the mouse
     canvas.on('mouseup', function () {
         drawing = false;
     });
 
+    //When user clicks the mouse
     canvas.on('mousedown', function () {
         drawing = true;
 
+        //When user moves the mouse
         canvas.on('mousemove', function (event) {
-
             var offset = canvas.offset();
             var position = {
                 x: event.pageX - offset.left,
                 y: event.pageY - offset.top
             };
 
+            //if user's mouse is clicked, draw in the canvas
             if (drawing) {
                 draw(position);
                 socket.emit('draw', position);
             } else {
+                //if the user's mouse is not clicked then unbind the event listeners
                 canvas.unbind('mousedown', 'mousemove');
             }
         });
     });
-
     socket.on('draw', draw);
 };
 
 $(document).ready(function () {
     pictionary();
-    var onKeyDown = function (event) {
-        if (event.keyCode != 13) { //Enter
-            return;
-        }
-        console.log(guessBox.val());
-        guessBox.val('');
-        socket.emit('showInput', guessBox);
-    };
-    socket.on('guess', guessBox);
-    guessBox = $('#guess input');
-    guessBox.on('keydown', onKeyDown);
 });
