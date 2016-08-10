@@ -8,6 +8,17 @@
 </head>
 
 <body>
+    <div id="main">
+        <h1>Pictionary</h1>
+        <div id="top-message">
+            <div id="guess">
+                Make a guess:
+                <input type="text">
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+    </div>
+
     <!--CSS-->
     <style>
         * {
@@ -47,16 +58,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
 
-    <div id="main">
-        <h1>Pictionary</h1>
-        <div id="top-message">
-            <div id="guess" style="display:none">
-                Make a guess:
-                <input type="text">
-            </div>
-        </div>
-        <canvas id="canvas"></canvas>
-    </div>
 </body>
 
 </html>

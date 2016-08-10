@@ -15,6 +15,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('draw', position);
     });
 
+    socket.on('guess', function (guessBox) {
+        console.log('guess', guessBox);
+        socket.broadcast.emit('guess', guessBox);
+    });
+
     socket.on('error', function (error) {
         console.log('What is the error? ', error);
     });

@@ -2,16 +2,7 @@
 var socket = io();
 var guessBox;
 
-var onKeyDown = function (event) {
-    if (event.keyCode != 13) { //Enter
-        return;
-    }
-    console.log(guessBox.val());
-    guessBox.val('');
-};
 
-guessBox = $('#guess input');
-guessBox.on('keydown', onKeyDown);
 
 var pictionary = function () {
     var canvas, context;
@@ -57,4 +48,17 @@ var pictionary = function () {
 
 $(document).ready(function () {
     pictionary();
+    var onKeyDown = function (event) {
+        if (event.keyCode != 13) { //Enter
+            return;
+        }
+        console.log(guessBox.val());
+        guessBox.val('');
+
+    };
+
+    guessBox = $('#guess input');
+    guessBox.on('keydown', onKeyDown);
+    socket.emit('guess', guessBox);
+    socket.on('guess', onKeyDown);
 });
