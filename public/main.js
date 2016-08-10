@@ -11,9 +11,11 @@ var pictionary = function () {
         if (event.keyCode != 13) { //Enter
             return;
         }
-        console.log(guessBox.val());
+        var userGuess = guessBox.val();
+        console.log(userGuess);
         guessBox.val('');
-        socket.emit('showInput', guessBox);
+        $('#userGuess').text(userGuess);
+        socket.emit('showInput', userGuess);
     };
 
     guessBox = $('#guess input');
