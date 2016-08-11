@@ -18,6 +18,7 @@ var pictionary = function () {
             console.log(randomWord);
             drawerWord.text(randomWord);
         };
+        socket.emit('randomWord', randomWord);
     };
 
     //Function for when user hits enter for the guess input

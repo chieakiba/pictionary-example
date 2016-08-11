@@ -22,6 +22,7 @@ io.on('connection', function (socket) {
 
     socket.on('randomWord', function (randomWord) {
         console.log('randomWord', randomWord);
+        socket.broadcast.emit('randomWord', randomWord);
     });
 
     socket.on('error', function (error) {
