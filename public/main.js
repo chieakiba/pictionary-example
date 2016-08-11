@@ -15,11 +15,13 @@ var pictionary = function () {
     var randomWordGenerator = function (words) {
         for (var i = 0; i < words[i].length; i++) {
             var randomWord = words[Math.floor(Math.random() * words.length)];
-            console.log(randomWord);
-            drawerWord.text(randomWord);
         };
+        console.log(randomWord);
         socket.emit('randomWord', randomWord);
     };
+    socket.on('randomWord', function (data) {
+        drawerWord.text(randomWord);
+    });
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
