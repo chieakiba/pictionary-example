@@ -15,9 +15,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('draw', position);
     });
 
-    socket.on('showInput', function (userGuess) {
-        console.log('What\'s in the guess box?', userGuess);
-        socket.broadcast.emit('showInput', userGuess);
+    socket.on('showInput', function (onKeyDown) {
+        console.log('What\'s in the guess box?', onKeyDown);
+        socket.broadcast.emit('showInput', onKeyDown);
     });
 
     socket.on('guess', function (guessBox) {
