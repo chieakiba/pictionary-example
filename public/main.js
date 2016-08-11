@@ -17,7 +17,7 @@ var pictionary = function () {
         console.log(userGuess);
         guessBox.val('');
         showGuess.text(userGuess);
-        socket.emit('userGuess', guessBox);
+        socket.emit('userGuess', userGuess);
     };
 
     showGuess = $('#userGuess');
