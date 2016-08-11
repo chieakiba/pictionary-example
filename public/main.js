@@ -6,8 +6,7 @@ var pictionary = function () {
     var guessBox;
     var drawing;
     var userGuess;
-    var showGuess;
-    var broadcastGuess;
+    var showGuess = $('#userGuess');
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
@@ -17,14 +16,13 @@ var pictionary = function () {
         userGuess = guessBox.val();
         console.log(userGuess);
         guessBox.val('');
-        broadcastGuess = showGuess.text(userGuess);
+        showGuess.text(userGuess);
 
         socket.emit('userGuess', userGuess);
     };
     socket.on('userGuess', function (data) {
         showGuess.text(data);
     });
-    showGuess = $('#userGuess');
     guessBox = $('#guess input');
     guessBox.on('keydown', onKeyDown);
 
