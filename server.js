@@ -23,6 +23,10 @@ io.on('connection', function (socket) {
     socket.on('error', function (error) {
         console.log('What is the error? ', error);
     });
+
+    socket.on('disconnect', function () {
+        console.log('A user has disconnected');
+    });
 });
 
 server.listen(8080);
