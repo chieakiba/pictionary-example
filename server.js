@@ -20,9 +20,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('userGuess', userGuess);
     });
 
-    socket.on('guess', function (onKeyDown) {
-        console.log('userGuess', onKeyDown);
-        socket.broadcast.emit('userGuess', onKeyDown);
+    socket.on('guess', function (broadcastGuess) {
+        console.log('Is this guess emitting at all?', broadcastGuess);
+        socket.broadcast.emit('guess', broadcastGuess);
     });
 
     socket.on('error', function (error) {
