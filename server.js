@@ -17,13 +17,13 @@ io.on('connection', function (socket) {
 
     socket.on('guess', function (onKeyDown) {
         console.log('What\'s in the guess box?', onKeyDown);
-        socket.broadcast.emit('showInput', onKeyDown);
+        socket.broadcast.emit('guess', onKeyDown);
     });
 
-    socket.on('guess', function (guessBox) {
-        console.log('guess', guessBox);
-        userGuess.text(guessBox.val());
-        socket.broadcast.emit('guess', guessBox);
+    socket.on('showGuess', function (guessBox) {
+        console.log('showGuess', guessBox);
+        //        userGuess.text(guessBox.val());
+        socket.broadcast.emit('showGuess', userGuess);
     });
 
     socket.on('error', function (error) {
