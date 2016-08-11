@@ -12,13 +12,16 @@ var pictionary = function () {
 
 
     //Function to pick random words in the array
-    var randomWordGenerator = function (words) {
-        for (var i = 0; i < words[i].length; i++) {
-            var randomWord = words[Math.floor(Math.random() * words.length)];
-        };
-        console.log(randomWord);
-        socket.emit('randomWord', randomWord);
-    };
+    var randomWord = words[Math.floor(Math.random() * words.length)];
+    console.log(randomWord);
+    socket.emit('randomWord', randomWord);
+    //    var randomWordGenerator = function (words) {
+
+    //        for (var i = 0; i < words[i].length; i++) {
+    //
+    //        };
+
+    //    };
     socket.on('randomWord', function (data) {
         drawerWord.text(randomWord);
     });
