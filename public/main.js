@@ -14,14 +14,8 @@ var pictionary = function () {
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
     console.log(randomWord);
+    drawerWord.text(randomWord);
     socket.emit('randomWord', randomWord);
-    //    var randomWordGenerator = function (words) {
-
-    //        for (var i = 0; i < words[i].length; i++) {
-    //
-    //        };
-
-    //    };
     socket.on('randomWord', function (data) {
         drawerWord.text(randomWord);
     });
