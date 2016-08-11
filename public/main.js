@@ -5,6 +5,7 @@ var pictionary = function () {
     var canvas, context;
     var guessBox;
     var drawing;
+    var userGuess;
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
@@ -18,6 +19,7 @@ var pictionary = function () {
         socket.emit('guess', guessBox);
     };
 
+    userGuess = $('#userGuess');
     guessBox = $('#guess input');
     guessBox.on('keydown', onKeyDown);
     socket.on('guess', guessBox);
