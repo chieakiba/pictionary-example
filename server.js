@@ -15,15 +15,14 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('draw', position);
     });
 
-    socket.on('guess', function (onKeyDown) {
-        console.log('What\'s in the guess box?', onKeyDown);
-        socket.broadcast.emit('guess', onKeyDown);
+    socket.on('userGuess', function (guessBox) {
+        console.log('What\'s in the guess box?', guessBox);
+        socket.broadcast.emit('guess', guessBox);
     });
 
-    socket.on('showGuess', function (guessBox) {
-        console.log('showGuess', guessBox);
-        //        userGuess.text(guessBox.val());
-        socket.broadcast.emit('showGuess', userGuess);
+    socket.on('guess', function (onKeyDown) {
+        console.log('userGuess', onKeyDown);
+        socket.broadcast.emit('userGuess', onKeyDown);
     });
 
     socket.on('error', function (error) {

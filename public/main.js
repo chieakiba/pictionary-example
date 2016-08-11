@@ -6,23 +6,24 @@ var pictionary = function () {
     var guessBox;
     var drawing;
     var userGuess;
+    var showGuess;
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
         if (event.keyCode != 13) { //Enter
             return;
         }
-        guessBox.val();
-        console.log(guessBox.val());
+        userGuess = guessBox.val();
+        console.log(userGuess);
         guessBox.val('');
-        $('#userGuess').text(guessBox.val());
-        socket.emit('guess', onKeyDown);
+        showGuess.text(userGuess);
+        socket.emit('userGuess', guessBox);
     };
 
-    userGuess = $('#userGuess');
+    showGuess = $('#userGuess');
     guessBox = $('#guess input');
     guessBox.on('keydown', onKeyDown);
-    socket.on('showGuess', guessBox);
+    socket.on('guess', onKeyDown);
 
     //When user draws in the canvas
     var draw = function (position) {
