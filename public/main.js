@@ -18,13 +18,15 @@ var pictionary = function () {
         console.log(userGuess);
         guessBox.val('');
         broadcastGuess = showGuess.text(userGuess);
+        socket.on('userGuess', onKeyDown);
         socket.emit('userGuess', userGuess);
     };
 
     showGuess = $('#userGuess');
     guessBox = $('#guess input');
     guessBox.on('keydown', onKeyDown);
-    socket.on('guess', broadcastGuess);
+    socket.emit('guess', broadcastGuess);
+
 
     //When user draws in the canvas
     var draw = function (position) {
