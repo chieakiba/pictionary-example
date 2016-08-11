@@ -20,6 +20,10 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('userGuess', userGuess);
     });
 
+    socket.on('randomWord', function (randomWord) {
+        console.log('randomWord', randomWord);
+    });
+
     socket.on('error', function (error) {
         console.log('What is the error? ', error);
     });
