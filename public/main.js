@@ -28,10 +28,12 @@ var pictionary = function () {
         socket.emit('drawThis', drawThis);
         socket.emit('randomWord', randomWord);
     };
+    //Listens to the drawThis socket broadcast to append 'Draw this word: '
     socket.on('drawThis', function (data) {
         drawThis.append('Draw this word: ');
     });
 
+    //Listens to the randomWord socket broadcast to append the generated random word
     socket.on('randomWord', function (data) {
         drawerWord.append(randomWord);
     });
@@ -48,6 +50,7 @@ var pictionary = function () {
 
         socket.emit('userGuess', userGuess);
     };
+    //Listens to the userGuess socket in the server to show the guesser's guess
     socket.on('userGuess', function (data) {
         showGuess.text(data);
     });
