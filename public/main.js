@@ -36,16 +36,6 @@ var pictionary = function () {
         drawerWord.append(randomWord);
     });
 
-    //Drawer and guesser objects
-    //    var drawer = {
-    //        'username': username,
-    //        'status': drawer
-    //    };
-    //    var guesser = {
-    //        'username': username,
-    //        'status': guesser
-    //    };
-
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
         if (event.keyCode != 13) { //Enter
