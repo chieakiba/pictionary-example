@@ -10,6 +10,23 @@ var pictionary = function () {
     var drawerWord = $('#randomWord');
     var words = ["word", "letter", "number", "person", "pen", "class", "people", "sound", "water", "side", "place", "man", "men", "woman", "women", "boy", "girl", "year", "day", "week", "month", "name", "sentence", "line", "air", "land", "home", "hand", "house", "picture", "animal", "mother", "father", "brother", "sister", "world", "head", "page", "country", "question", "answer", "school", "plant", "food", "sun", "state", "eye", "city", "tree", "farm", "story", "sea", "night", "day", "life", "north", "south", "east", "west", "child", "children", "example", "paper", "music", "river", "car", "foot", "feet", "book", "science", "room", "friend", "idea", "fish", "mountain", "horse", "watch", "color", "face", "wood", "list", "bird", "body", "dog", "family", "song", "door", "product", "wind", "ship", "area", "rock", "order", "fire", "problem", "piece", "top", "bottom", "king", "space"];
 
+    //Have users enter their name
+    var user = prompt('Enter your username');
+    var users = [];
+
+    //Have users pick whether they want to be a drawer or guesser
+
+
+    //Drawer and guesser objects
+    var drawer = {
+        'username': username,
+        'status': drawer
+    };
+    var guesser = {
+        'username': username,
+        'status': guesser
+    };
+
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
