@@ -18,6 +18,7 @@ var pictionary = function () {
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
+
     //If the user decides to be the drawer, pick a random word so only they can see it
     if (pickOne) {
         drawThis.append('Draw this word: ');
