@@ -18,25 +18,12 @@ var pictionary = function () {
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
-    //If the user decides to be the drawer, pick a random word so only they can see it
-    if (pickOne) {
-        drawThis.append('Draw this word: ');
 
-        //Function to pick random words in the array
-        var randomWord = words[Math.floor(Math.random() * words.length)];
-        drawerWord.append(randomWord);
-        socket.emit('drawThis', drawThis);
-        socket.emit('randomWord', randomWord);
-    };
-    //Listens to the drawThis socket broadcast to append 'Draw this word: '
-    socket.on('drawThis', function (data) {
-        drawThis.append('Draw this word: ');
-    });
+    //    if (pickOne) {
+    //
+    //    };
 
-    //Listens to the randomWord socket broadcast to append the generated random word
-    socket.on('randomWord', function (data) {
-        drawerWord.append(randomWord);
-    });
+
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
@@ -50,6 +37,7 @@ var pictionary = function () {
 
         socket.emit('userGuess', userGuess);
     };
+
     //Listens to the userGuess socket in the server to show the guesser's guess
     socket.on('userGuess', function (data) {
         showGuess.text(data);
@@ -86,16 +74,34 @@ var pictionary = function () {
                 y: event.pageY - offset.top
             };
 
-            //if user's mouse is clicked, draw in the canvas
-            if (drawing) {
+            //If user's mouse is clicked, draw in the canvas and if the user decides to be the drawer, pick a random word so only they can see it
+            if (drawing && pickOne) {
                 draw(position);
+                drawThis.append('Draw this word: ');
                 socket.emit('draw', position);
+
+                //Function to pick random words in the array
+                var randomWord = words[Math.floor(Math.random() * words.length)];
+                drawerWord.append(randomWord);
+                socket.emit('drawThis', drawThis);
+                socket.emit('randomWord', randomWord);
             } else {
                 //if the user's mouse is not clicked then unbind the event listeners
                 canvas.unbind('mousedown', 'mousemove');
             }
         });
     });
+    //Listens to the drawThis socket broadcast to append 'Draw this word: '
+    socket.on('drawThis', function (data) {
+        drawThis.append('Draw this word: ');
+    });
+
+    //Listens to the randomWord socket broadcast to append the generated random word
+    socket.on('randomWord', function (data) {
+        drawerWord.append(randomWord);
+    });
+
+    //Listens to the draw socket broadcast to enable user to draw
     socket.on('draw', draw);
 };
 
