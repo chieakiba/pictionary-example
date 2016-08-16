@@ -24,17 +24,17 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('randomWord', randomWord);
     });
 
-    socket.on('drawer', function (drawer) {
-        socket.broadcast.emit('drawer', drawer);
+//    socket.on('drawer', function (drawer) {
+            //        socket.broadcast.emit('drawer', drawer);
+            //    });
+
+    socket.on('draw', function (position) {
+        socket.broadcast.emit('draw', position);
     });
 
     socket.on('userGuess', function (userGuess) {
         console.log('What\'s in the guess box?', userGuess);
         socket.broadcast.emit('userGuess', userGuess);
-    });
-
-    socket.on('draw', function (position) {
-        socket.broadcast.emit('draw', position);
     });
 
     socket.on('error', function (error) {

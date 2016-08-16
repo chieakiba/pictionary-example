@@ -96,35 +96,14 @@ var pictionary = function () {
         drawThis.append('Draw this word: ');
         socket.on('users', function (data) {
             users = data;
-            console.log('who are the users? in the drawThis socket', data);
         });
     });
-
 
     //Listens to the randomWord socket broadcast to append the generated random word
     socket.on('randomWord', function (data) {
         drawerWord.append(randomWord);
     });
 
-    //Function for when user hits enter for the guess input
-    var onKeyDown = function (event) {
-        if (event.keyCode != 13) { //Enter
-            return;
-        }
-        userGuess = guessBox.val();
-        console.log(userGuess);
-        guessBox.val('');
-        showGuess.text(userGuess);
-
-        socket.emit('userGuess', userGuess);
-    };
-
-    //Listens to the userGuess socket in the server to show the guesser's guess
-    socket.on('userGuess', function (data) {
-        showGuess.text(data);
-    });
-    guessBox = $('#guess input');
-    guessBox.on('keydown', onKeyDown);
 
     //When user draws in the canvas
     var draw = function (position) {
@@ -166,6 +145,26 @@ var pictionary = function () {
         });
     });
     socket.on('draw', draw);
+
+    //Function for when user hits enter for the guess input
+    var onKeyDown = function (event) {
+        if (event.keyCode != 13) { //Enter
+            return;
+        }
+        userGuess = guessBox.val();
+        console.log(userGuess);
+        guessBox.val('');
+        showGuess.text(userGuess);
+        socket.emit('userGuess', userGuess);
+    };
+
+    //Listens to the userGuess socket in the server to show the guesser's guess
+    socket.on('userGuess', function (data) {
+        showGuess.text(data);
+    });
+    guessBox = $('#guess input');
+    guessBox.on('keydown', onKeyDown);
+
 };
 
 $(document).ready(function () {
