@@ -38,17 +38,18 @@ var pictionary = function () {
                     });
                     break;
                 }
-            } else if (foundDrawer == false) {
-                //Make a random user in the array to be the drawer and then push that new property key to the array
-                var randomDrawer = users[Math.floor(Math.random() * users.length)];
-                console.log('Randomly selected drawer', randomDrawer);
-                pickOne = true;
-                users.push({
-                    user: user,
-                    canDraw: pickOne
-                });
             }
+
             console.log('Did all the users get pushed into an array?', data);
+        } else if (foundDrawer == false) {
+            //Make a random user in the array to be the drawer and then push that new property key to the array
+            var randomDrawer = users[Math.floor(Math.random() * users.length)];
+            console.log('Randomly selected drawer', randomDrawer);
+            pickOne = true;
+            users.push({
+                user: user,
+                canDraw: pickOne
+            });
         }
     });
 
