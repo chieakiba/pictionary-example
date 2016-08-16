@@ -29,9 +29,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('randomWord', randomWord);
     });
 
-    //    socket.on('drawer', function (drawer) {
-    //        socket.broadcast.emit('drawer', drawer);
-    //    });
+    socket.on('drawer', function (drawer) {
+        socket.broadcast.emit('drawer', drawer);
+    });
 
     socket.on('draw', function (position) {
         socket.broadcast.emit('draw', position);

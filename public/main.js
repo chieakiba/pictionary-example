@@ -42,7 +42,7 @@ var pictionary = function () {
                     //                    console.log('What does the user data look like now?', users);
                 }
             }
-        } else if (users.includes(!pickOne)) {
+        } else {
             //Make a random user in the array to be the drawer and then push that new property key to the array
             var randomDrawer = users[Math.floor(Math.random() * users.length)];
             //            console.log('Randomly selected drawer', randomDrawer);
