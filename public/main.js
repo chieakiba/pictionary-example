@@ -28,16 +28,16 @@ var pictionary = function () {
 
     socket.emit('users', users);
     socket.on('users', function (data) {
+        users.push(data);
         console.log('What does this data look like?', data);
         var foundDrawer = false; //Begins with no drawer for the game
         if (pickOne) {
-
             drawThis.append('Draw this word: ');
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
                     foundDrawer = true;
                     alert('Sorry someone chose to be the drawer before you.');
-                    users[canDraw] = false; //users[i].canDraw = false
+                    users["canDraw"] = false; //users[i].canDraw = false
                     users.push({
                         user: user,
                         canDraw: pickOne
