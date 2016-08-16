@@ -72,7 +72,7 @@ var pictionary = function () {
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
-    //    drawerWord.append(randomWord);
+    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
 
