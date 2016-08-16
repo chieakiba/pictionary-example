@@ -15,6 +15,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('users', users);
     });
 
+    socket.on('updatedUsers', function (updatedUsers) {
+        console.log('What does the updated users array look like?', updatedUsers);
+        socket.broadcast.emit('updatedUsers', updatedUsers);
+    })
+
     socket.on('drawThis', function (drawThis) {
         socket.broadcast.emit('drawThis', drawThis);
     });
@@ -24,9 +29,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('randomWord', randomWord);
     });
 
-//    socket.on('drawer', function (drawer) {
-            //        socket.broadcast.emit('drawer', drawer);
-            //    });
+    //    socket.on('drawer', function (drawer) {
+    //        socket.broadcast.emit('drawer', drawer);
+    //    });
 
     socket.on('draw', function (position) {
         socket.broadcast.emit('draw', position);
