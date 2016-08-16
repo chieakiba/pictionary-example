@@ -35,7 +35,7 @@ var pictionary = function () {
         users.push(data);
         if (pickOne) {
             for (var i = 0; i < users.length; i++) {
-                if (users.includes(pickOne)) {
+                if (users[i].canDraw) {
                     alert('Sorry someone chose to be the drawer before you.');
                     pickOne = false;
                     users.push({
