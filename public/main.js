@@ -18,10 +18,10 @@ var pictionary = function () {
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
-    //    users.push({
-    //        user: user,
-    //        canDraw: pickOne
-    //    });
+    users.push({
+        user: user,
+        canDraw: pickOne
+    });
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
@@ -32,9 +32,10 @@ var pictionary = function () {
     });
 
     socket.on('users', function (data) {
+        users.push(data);
         if (pickOne) {
             for (var i = 0; i < users.length; i++) {
-                if (users[canDraw].includes(pickOne)) {
+                if (users.includes(pickOne)) {
                     alert('Sorry someone chose to be the drawer before you.');
                     pickOne = false;
                     users.push({
