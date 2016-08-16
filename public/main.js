@@ -40,6 +40,7 @@ var pictionary = function () {
                         user: user,
                         canDraw: pickOne
                     });
+                    console.log('What does the user data look like now?', users);
                     break;
                 }
             }
@@ -53,41 +54,10 @@ var pictionary = function () {
                 user: user,
                 canDraw: pickOne
             });
+            console.log('What does the array look like after nobody decided to be the drawer?', data);
         }
-        console.log('What does the array look like after nobody decided to be the drawer?', data);
+
     });
-
-
-
-    //If the user decides to be the drawer, pick a random word so only they can see it
-    //    if (pickOne) {
-    //        drawThis.append('Draw this word: ');
-    //check other users who are logged in and only allow someone to continue playing the game if no one decides to be the drawer
-    //        for (var i = 0; i < users.length; i++) {
-    //            if (users[i].canDraw) {
-    //                alert('Sorry someone chose to be the drawer before you.');
-    //                pickOne = false;
-    //                break;
-    //            }
-    //        }
-    //        users.push({
-    //            user: user,
-    //            canDraw: pickOne
-    //        });
-    //        console.log('who are the users and what can they do?', users);
-    //} else {
-    //    //what should the person who doesn't want to draw do?
-    //    //if found = false
-    //    users.push({
-    //        user: user,
-    //        canDraw: pickOne
-    //    });
-    //    socket.emit('users', users);
-    //    socket.on('users', function (data) {
-    //        users = data;
-    //        console.log('who are the users? after the else', data);
-    //    });
-    //};
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
