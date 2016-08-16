@@ -15,9 +15,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('users', users);
     });
 
-    socket.on('updatedUsers', function (updatedUsers) {
-        console.log('What does the updated users array look like?', updatedUsers);
-        socket.broadcast.emit('updatedUsers', updatedUsers);
+    socket.on('updatedUsers', function (users) {
+        console.log('What does the updated users array look like?', users);
+        socket.broadcast.emit('updatedUsers', users);
     })
 
     socket.on('drawThis', function (drawThis) {
