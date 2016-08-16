@@ -27,7 +27,6 @@ var pictionary = function () {
 
     socket.on('users', function (data) {
         users.push(data);
-        console.log('What does this data look like?', data);
         //        var foundDrawer = false; //Begins with no drawer for the game
         if (pickOne) {
             for (var i = 0; i < users.length; i++) {
@@ -40,7 +39,7 @@ var pictionary = function () {
                         canDraw: pickOne
                     });
                     socket.emit('updatedUsers', users);
-                    console.log('What does the user data look like now?', users);
+                    //                    console.log('What does the user data look like now?', users);
                 }
                 socket.on('updatedUsers', function (data) {
                     users.push(data);
@@ -55,14 +54,14 @@ var pictionary = function () {
         } else if (users.includes(!pickOne)) {
             //Make a random user in the array to be the drawer and then push that new property key to the array
             var randomDrawer = users[Math.floor(Math.random() * users.length)];
-            console.log('Randomly selected drawer', randomDrawer);
+            //            console.log('Randomly selected drawer', randomDrawer);
             pickOne = true;
             users.push({
                 user: user,
                 canDraw: pickOne
             });
             socket.emit('updatedUsers', users);
-            console.log('What does the array look like after nobody decided to be the drawer?', users);
+            //            console.log('What does the array look like after nobody decided to be the drawer?', users);
             socket.on('updatedUsers', function (data) {
                 users.push(data);
                 drawThis.append('Draw this word: ');
@@ -81,7 +80,7 @@ var pictionary = function () {
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
-    drawerWord.append(randomWord);
+    //    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
 
