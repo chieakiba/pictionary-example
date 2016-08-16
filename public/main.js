@@ -27,6 +27,7 @@ var pictionary = function () {
     var pickOne = confirm('Would you like to be the drawer?');
 
     socket.emit('users', users);
+
     socket.on('users', function (data) {
         users.push(data);
         console.log('What does this data look like?', data);
@@ -37,43 +38,11 @@ var pictionary = function () {
                 if (users[i].canDraw) {
                     foundDrawer = true;
                     alert('Sorry someone chose to be the drawer before you.');
-                    users["canDraw"] = false; //users[i].canDraw = false
-                    users.push({
-                        user: user,
-                        canDraw: pickOne
-                    });
+                    users[i].canDraw = false;
                     console.log('What does the user data look like now?', users);
-                    break;
                 }
-                socket.emit('updatedUsers', {
-                    user: user,
-                    canDraw: pickOne
-                });
             }
-            //Listens to the randomWord socket broadcast to append the generated random word
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
-            });
-            console.log('Did all the users get pushed into an array?', data);
-        } else if (foundDrawer == false) {
-            //Make a random user in the array to be the drawer and then push that new property key to the array
-            var randomDrawer = users[Math.floor(Math.random() * users.length)];
-            console.log('Randomly selected drawer', randomDrawer);
-            pickOne = true;
-            users.push({
-                user: user,
-                canDraw: pickOne
-            });
-            console.log('What does the array look like after nobody decided to be the drawer?', data);
-            //Listens to the randomWord socket broadcast to append the generated random word
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
-            });
         }
-        socket.emit('updatedUsers', {
-            user: user,
-            canDraw: pickOne
-        });
     });
 
     socket.on('updatedUsers', function (data) {
