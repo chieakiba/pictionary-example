@@ -32,15 +32,19 @@ var pictionary = function () {
     });
 
     socket.on('users', function (data) {
-        if (pickOne && users.includes(pickOne)) {
-            alert('Sorry someone chose to be the drawer before you.');
-            pickOne = false;
-            users.push({
-                user: user,
-                canDraw: pickOne
-            });
-            socket.emit('updatedUsers', users);
-            console.log('What does the user data look like now?', users);
+        if (pickOne) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[canDraw].includes(pickOne)) {
+                    alert('Sorry someone chose to be the drawer before you.');
+                    pickOne = false;
+                    users.push({
+                        user: user,
+                        canDraw: pickOne
+                    });
+                    socket.emit('updatedUsers', users);
+                    console.log('What does the user data look like now?', users);
+                }
+            }
         } else {
             //Make a random user in the array to be the drawer and then push that new property key to the array
             var randomDrawer = users[Math.floor(Math.random() * users.length)];
