@@ -29,7 +29,7 @@ var pictionary = function () {
     socket.emit('users', users);
 
     socket.on('users', function (data) {
-        users.push(data);
+        pickOne;
         if (pickOne) {
             for (var i = 0; i < users.length; i++) {
                 if (users.includes(pickOne)) {
