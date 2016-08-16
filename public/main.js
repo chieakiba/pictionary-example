@@ -25,10 +25,10 @@ var pictionary = function () {
     socket.emit('users', users);
     socket.on('users', function (data) {
         var foundDrawer = false; //Begins with no drawer for the game
-        if (pickOne) {
+        if (pickOne && foundDrawer == true) {
             drawThis.append('Draw this word: ');
             for (var i = 0; i < users.length; i++) {
-                if (users[i].canDraw == true) {
+                if (users[i].canDraw) {
                     foundDrawer == true;
                     alert('Sorry someone chose to be the drawer before you.');
                     pickOne = false; //users[i].canDraw = false
@@ -38,8 +38,7 @@ var pictionary = function () {
                     });
                     break;
                 }
-            }
-            if (foundDrawer == false) {
+            } else if (foundDrawer == false) {
                 //Make a random user in the array to be the drawer and then push that new property key to the array
                 var randomDrawer = users[Math.floor(Math.random() * users.length)];
                 console.log('Randomly selected drawer', randomDrawer);
@@ -95,8 +94,6 @@ var pictionary = function () {
         console.log('who are the users? in the if statement', data);
     });
 
-
-
     //Listens to the drawThis socket broadcast to append 'Draw this word: '
     socket.on('drawThis', function (data) {
         drawThis.append('Draw this word: ');
@@ -109,7 +106,6 @@ var pictionary = function () {
     socket.on('randomWord', function (data) {
         drawerWord.append(randomWord);
     });
-
 
     //When user draws in the canvas
     var draw = function (position) {
