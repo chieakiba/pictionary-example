@@ -28,12 +28,11 @@ var pictionary = function () {
     socket.on('users', function (data) {
         users.push(data);
         console.log('What does this data look like?', data);
-        var foundDrawer = false; //Begins with no drawer for the game
+        //        var foundDrawer = false; //Begins with no drawer for the game
         if (pickOne) {
-
             for (var i = 0; i < users.length; i++) {
                 if (users.includes(pickOne)) {
-                    foundDrawer = true;
+                    //                    foundDrawer = true;
                     alert('Sorry someone chose to be the drawer before you.');
                     pickOne = false;
                     users.push({
@@ -82,7 +81,7 @@ var pictionary = function () {
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
-    //    drawerWord.append(randomWord);
+    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
 
