@@ -38,13 +38,17 @@ var pictionary = function () {
                     foundDrawer = true;
                     alert('Sorry someone chose to be the drawer before you.');
                     users[canDraw] = false; //users[i].canDraw = false
-                    var updatedUsers = users.push({
+                    users.push({
                         user: user,
                         canDraw: pickOne
                     });
                     console.log('What does the user data look like now?', users);
                     break;
                 }
+                socket.emit('updatedUsers', {
+                    user: user,
+                    canDraw: pickOne
+                });
             }
             //Listens to the randomWord socket broadcast to append the generated random word
             socket.on('randomWord', function (data) {
@@ -66,7 +70,10 @@ var pictionary = function () {
                 drawerWord.append(data);
             });
         }
-        socket.emit('updatedUsers', updatedUsers);
+        socket.emit('updatedUsers', {
+            user: user,
+            canDraw: pickOne
+        });
     });
 
     socket.on('updatedUsers', function (data) {
