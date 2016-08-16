@@ -1,3 +1,7 @@
+//still need to do
+//need to listen to other users who join the game
+//flag variable
+
 //global variables
 var socket = io();
 
@@ -14,26 +18,88 @@ var pictionary = function () {
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
-    users.push(user);
+
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
 
+
+    socket.emit('users', users);
+    socket.on('users', function (data) {
+        var found = false; //the moment we find it, it becomes true
+        users = data;
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].canDraw) {
+                alert('Sorry someone chose to be the drawer before you.');
+                pickOne = false; //users[i].canDraw = false
+                users.push({
+                    user: user,
+                    canDraw: pickOne
+                });
+                found = true;
+                break;
+            }
+        }
+        if (found == false) {
+            users.push({
+                user: user,
+                canDraw: pickOne
+            });
+        }
+        console.log('Did all the users get pushed into an array?', data);
+    });
+
     //If the user decides to be the drawer, pick a random word so only they can see it
     if (pickOne) {
         drawThis.append('Draw this word: ');
+        //check other users who are logged in and only allow someone to continue playing the game if no one decides to be the drawer
+        console.log('Users', users);
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].canDraw) {
+                alert('Sorry someone chose to be the drawer before you.');
+                pickOne = false;
+                break;
+            }
+        }
+        users.push({
+            user: user,
+            canDraw: pickOne
+        });
+        console.log('who are the users?', users);
 
         //Function to pick random words in the array
         var randomWord = words[Math.floor(Math.random() * words.length)];
         drawerWord.append(randomWord);
         socket.emit('drawThis', drawThis);
         socket.emit('randomWord', randomWord);
+        socket.on('users', function (data) {
+            users = data;
+            console.log('who are the users? in the if statement', data);
+        });
+    } else {
+        //what should the person who doesn't want to draw do?
+        //if found = false
+        users.push({
+            user: user,
+            canDraw: pickOne
+        });
+        socket.emit('users', users);
+        socket.on('users', function (data) {
+            users = data;
+            console.log('who are the users? after the else', data);
+        });
     };
+
 
     //Listens to the drawThis socket broadcast to append 'Draw this word: '
     socket.on('drawThis', function (data) {
         drawThis.append('Draw this word: ');
+        socket.on('users', function (data) {
+            users = data;
+            console.log('who are the users? in the drawThis socket', data);
+        });
     });
+
 
     //Listens to the randomWord socket broadcast to append the generated random word
     socket.on('randomWord', function (data) {

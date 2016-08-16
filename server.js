@@ -11,16 +11,21 @@ var io = socket_io(server);
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('drawer', function (drawer) {
-        socket.broadcast.emit('drawer', drawer);
+    socket.on('users', function (users) {
+        socket.broadcast.emit('users', users);
     });
 
     socket.on('drawThis', function (drawThis) {
         socket.broadcast.emit('drawThis', drawThis);
     });
 
-    socket.on('draw', function (position) {
-        socket.broadcast.emit('draw', position);
+    socket.on('randomWord', function (randomWord) {
+        console.log('randomWord', randomWord);
+        socket.broadcast.emit('randomWord', randomWord);
+    });
+
+    socket.on('drawer', function (drawer) {
+        socket.broadcast.emit('drawer', drawer);
     });
 
     socket.on('userGuess', function (userGuess) {
@@ -28,9 +33,8 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('userGuess', userGuess);
     });
 
-    socket.on('randomWord', function (randomWord) {
-        console.log('randomWord', randomWord);
-        socket.broadcast.emit('randomWord', randomWord);
+    socket.on('draw', function (position) {
+        socket.broadcast.emit('draw', position);
     });
 
     socket.on('error', function (error) {
