@@ -12,6 +12,7 @@ io.on('connection', function (socket) {
     console.log('Client connected');
 
     socket.on('users', function (users) {
+        console.log('Show me the users', users);
         socket.broadcast.emit('users', users);
     });
 
