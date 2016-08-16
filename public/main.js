@@ -18,16 +18,20 @@ var pictionary = function () {
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
+    users.push({
+        user: user,
+        canDraw: pickOne
+    });
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
 
     socket.emit('users', users);
     socket.on('users', function (data) {
-        users.push(data);
         console.log('What does this data look like?', data);
         var foundDrawer = false; //Begins with no drawer for the game
         if (pickOne) {
+            users.push(data);
             drawThis.append('Draw this word: ');
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
