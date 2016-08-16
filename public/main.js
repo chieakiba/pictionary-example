@@ -24,12 +24,16 @@ var pictionary = function () {
 
     socket.emit('users', users);
     socket.on('users', function (data) {
+        users.push({
+            user: user,
+            canDraw: pickOne
+        });
         var foundDrawer = false; //Begins with no drawer for the game
-        if (pickOne && foundDrawer == true) {
+        if (pickOne) {
             drawThis.append('Draw this word: ');
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
-                    foundDrawer == true;
+                    foundDrawer = true;
                     alert('Sorry someone chose to be the drawer before you.');
                     pickOne = false; //users[i].canDraw = false
                     users.push({
@@ -39,7 +43,6 @@ var pictionary = function () {
                     break;
                 }
             }
-
             console.log('Did all the users get pushed into an array?', data);
         } else if (foundDrawer == false) {
             //Make a random user in the array to be the drawer and then push that new property key to the array
@@ -51,6 +54,7 @@ var pictionary = function () {
                 canDraw: pickOne
             });
         }
+        console.log('What does the array look like after nobody decided to be the drawer?', data);
     });
 
 
