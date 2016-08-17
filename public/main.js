@@ -18,10 +18,6 @@ var pictionary = function () {
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
-    users.push({
-        user: user,
-        canDraw: pickOne
-    });
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
@@ -49,7 +45,7 @@ var pictionary = function () {
         } else {
             //Make a random user in the array to be the drawer and then push that new property key to the array
             var randomDrawer = users[Math.floor(Math.random() * users.length)];
-            //            console.log('Randomly selected drawer', randomDrawer);
+            console.log('Randomly selected drawer', randomDrawer);
             pickOne = true;
             users.push({
                 user: user,
@@ -72,7 +68,7 @@ var pictionary = function () {
 
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
-    drawerWord.append(randomWord);
+    //    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
 
