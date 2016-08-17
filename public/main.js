@@ -31,7 +31,6 @@ var pictionary = function () {
     socket.emit('users', users);
 
     socket.on('users', function (data) {
-        users.push(data);
         console.log('users before', users, data);
         if (pickOne && users.length != 0) {
             for (var i = 0; i < users.length; i++) {
@@ -46,18 +45,21 @@ var pictionary = function () {
                     console.log('What does the user data look like now?', users);
                     break;
                 }
-            }
-            socket.on('updatedUsers', function (data) {
-                users.push(data);
-                drawThis.append('Draw this word: ');
-                socket.emit('randomWord', randomWord);
-                //Listens to the randomWord socket broadcast to append the generated random word
-                socket.on('randomWord', function (data) {
-                    drawerWord.append(data);
-                });
-            });
-        }
 
+            }
+
+        }
+        socket.on('updatedUsers', function (data) {
+            users.push(data);
+            drawThis.append('Draw this word: ');
+            //Function to pick random words in the array
+            var randomWord = words[Math.floor(Math.random() * words.length)];
+            socket.emit('randomWord', randomWord);
+            //Listens to the randomWord socket broadcast to append the generated random word
+            socket.on('randomWord', function (data) {
+                drawerWord.append(data);
+            });
+        });
     });
 
     //    else {
@@ -75,8 +77,7 @@ var pictionary = function () {
 
 
 
-    //Function to pick random words in the array
-    var randomWord = words[Math.floor(Math.random() * words.length)];
+
     //    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
