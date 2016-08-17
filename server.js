@@ -13,8 +13,8 @@ io.on('connection', function (socket) {
 
     socket.on('users', function (users) {
         console.log('Show me the users', users);
-        //        socket.broadcast.emit('users', users);
-        io.emit('users', users);
+        socket.broadcast.emit('users', users);
+        //        io.emit('users', users);
     });
 
     socket.on('updatedUsers', function (users) {
