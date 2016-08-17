@@ -19,34 +19,41 @@ var pictionary = function () {
     var user = prompt('Enter your username');
     var users = [];
 
+
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
 
-    socket.emit('users', {
+    users.push({
         user: user,
         canDraw: pickOne
     });
 
+    socket.emit('users', users);
+
     socket.on('users', function (data) {
-        users.push(data);
+        console.log('called', data);
+        console.log('users before 33', users, pickOne);
         if (pickOne) {
             for (var i = 0; i < users.length; i++) {
+                console.log('user', users[i]);
+                user[i].canDraw = pickOne;
                 if (users[i].canDraw) {
                     alert('Sorry someone chose to be the drawer before you.');
-                    pickOne = false;
+                    this.pickOne = false;
                     users.push({
                         user: user,
                         canDraw: pickOne
                     });
                     socket.emit('updatedUsers', users);
                     console.log('What does the user data look like now?', users);
+                    break;
                 }
             }
         } else {
             //Make a random user in the array to be the drawer and then push that new property key to the array
             var randomDrawer = users[Math.floor(Math.random() * users.length)];
             console.log('Randomly selected drawer', randomDrawer);
-            pickOne = true;
+            pickOne = false;
             users.push({
                 user: user,
                 canDraw: pickOne
