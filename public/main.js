@@ -27,51 +27,27 @@ var pictionary = function () {
         canDraw: pickOne
     });
 
-    socket.emit('users', users);
-
-    socket.on('users', function (data) {
-        users.push(data);
-        console.log('users before', users, data);
-        if (pickOne && users.length != 0) {
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].canDraw) {
-                    alert('Sorry someone chose to be the drawer before you.');
-                    pickOne = false;
-                    users.push({
-                        user: user,
-                        canDraw: pickOne
-                    });
-                    socket.emit('updatedUsers', users);
-                    console.log('What does the user data look like now?', users);
-                    break;
-                }
-            }
-        }
-        socket.on('updatedUsers', function (data) {
-            users.push(data);
-            drawThis.append('Draw this word: ');
-
-            drawerWord.append(randomWord);
-            socket.emit('randomWord', randomWord);
-            //Listens to the randomWord socket broadcast to append the generated random word
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
-            });
-        });
+    socket.emit('user', {
+        user: user,
+        canDraw: pickOne
     });
 
-    //    else {
-    //        //Make a random user in the array to be the drawer and then push that new property key to the array
-    //        var randomDrawer = users[Math.floor(Math.random() * users.length)];
-    //        console.log('Randomly selected drawer', randomDrawer);
-    //        pickOne = false;
-    //        users.push({
-    //            user: user,
-    //            canDraw: pickOne
-    //        });
-    //        socket.emit('updatedUsers', users);
-    //        //            console.log('What does the array look like after nobody decided to be the drawer?', users);
-    //    }
+    socket.on('user', function (data) {
+        if (pickOne) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].canDraw) {
+                    alert('Sorry! Someone chose to be the drawer already!');
+                    this.user.canDraw = false
+                }
+            }
+            users.push(user);
+            socket.emit('users', users);
+        }
+    });
+
+    socket.on('users', function (data) {
+        console.log('What does the users array look like?', data);
+    });
 
     socket.emit('drawThis', drawThis);
 

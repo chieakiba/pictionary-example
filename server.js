@@ -11,16 +11,22 @@ var io = socket_io(server);
 io.on('connection', function (socket) {
     console.log('Client connected');
 
+    //how do you know when someone logs on? Need to store some data on the server. Right now the second person doesn't have anyway to know about the first person
+
+    socket.on('user', function (user) {
+        console.log('Who is the user?', user);
+        socket.emit('user', user);
+    })
+
     socket.on('users', function (users) {
         console.log('Show me the users', users);
         socket.broadcast.emit('users', users);
-        //        io.emit('users', users);
     });
 
-    socket.on('updatedUsers', function (users) {
-        console.log('What does the updated users array look like?', users);
-        socket.broadcast.emit('updatedUsers', users);
-    })
+//    socket.on('updatedUsers', function (users) {
+            //        console.log('What does the updated users array look like?', users);
+            //        socket.broadcast.emit('updatedUsers', users);
+            //    })
 
     socket.on('drawThis', function (drawThis) {
         socket.broadcast.emit('drawThis', drawThis);
