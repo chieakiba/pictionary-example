@@ -31,9 +31,9 @@ var pictionary = function () {
     socket.emit('users', users);
 
     socket.on('users', function (data) {
-        //        users.push(data);
+        users.push(data);
         console.log('users before', users, data);
-        if (this.pickOne && users.length != 0) {
+        if (pickOne && users.length != 0) {
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
                     alert('Sorry someone chose to be the drawer before you.');
@@ -47,16 +47,17 @@ var pictionary = function () {
                     break;
                 }
             }
-        }
-        socket.on('updatedUsers', function (data) {
-            users.push(data);
-            drawThis.append('Draw this word: ');
-            socket.emit('randomWord', randomWord);
-            //Listens to the randomWord socket broadcast to append the generated random word
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
+            socket.on('updatedUsers', function (data) {
+                users.push(data);
+                drawThis.append('Draw this word: ');
+                socket.emit('randomWord', randomWord);
+                //Listens to the randomWord socket broadcast to append the generated random word
+                socket.on('randomWord', function (data) {
+                    drawerWord.append(data);
+                });
             });
-        });
+        }
+
     });
 
     //    else {
@@ -87,8 +88,6 @@ var pictionary = function () {
             users = data;
         });
     });
-
-
 
     //When user draws in the canvas
     var draw = function (position) {
