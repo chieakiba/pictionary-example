@@ -45,18 +45,16 @@ var pictionary = function () {
         }
     });
 
-    // rectifies who should officially be able to draw
-    // the rule is the first user will be able to draw
-    var scoobyDraw = true;
+    // Establishes who should officially be able to draw
+    var officialDrawer = true;
 
     socket.on('users', function (data) {
         console.log('Who is in the room?', data);
-        // get the user
-        // check to see his credentials allow him to draw
+        // Checks to see if the user's credentials allow him/her to draw
         for (var i = 0; i < data.length; i++) {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
-                scoobyDraw = data[i].canDraw;
+                officialDrawer = data[i].canDraw;
             }
         }
     });
@@ -102,7 +100,7 @@ var pictionary = function () {
             };
 
             //If user's mouse is clicked, draw in the canvas
-            if (drawing && scoobyDraw) {
+            if (drawing && officialDrawer) {
                 draw(position);
                 socket.emit('draw', position);
             } else {

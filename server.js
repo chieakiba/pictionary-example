@@ -7,37 +7,37 @@ app.use(express.static('public'));
 
 var server = http.Server(app);
 var io = socket_io(server);
-var crazy = [];
+var curatedUsers = [];
 
 io.on('connection', function (socket) {
     console.log('Client connected');
 
     socket.on('user joined', function (user) {
-        crazy.push(user);
+        curatedUsers.push(user);
         console.log('Who joined this game?', user);
         socket.broadcast.emit('user joined', user);
     });
 
     socket.on('check this user', function (users) {
-        console.log(crazy, 'CRAZY');
-        if (crazy.length > 0) {
-            for (var firstUser = 0; firstUser < crazy.length; firstUser++) {
-                if (crazy[firstUser].canDraw) {
+        console.log(curatedUsers, 'Show what\'s in this list');
+        if (curatedUsers.length > 0) {
+            for (var j = 0; j < curatedUsers.length; j++) {
+                if (curatedUsers[j].canDraw) {
                     break;
                 }
             }
 
-            // check to see how many others "can draw";
-            for (var k = 0; k < crazy.length; k++) {
-                if (crazy[firstUser].canDraw && k != firstUser) {
-                    crazy[k].canDraw = false; // get rid of the other users' ability to draw
+            // Check to see how many other users chose to be the drawer
+            for (var k = 0; k < curatedUsers.length; k++) {
+                if (curatedUsers[j].canDraw && k != j) {
+                    curatedUsers[k].canDraw = false; // gets rid of the other users' ability to draw
                 }
             }
 
-            // new Crazy values
-            console.log("NEW CRAZE", crazy);
+            //New curatedUsers array
+            console.log("Ner array", curatedUsers);
         }
-        socket.broadcast.emit('users', crazy);
+        socket.broadcast.emit('users', curatedUsers);
     });
 
     socket.on('drawThis', function (drawThis) {
