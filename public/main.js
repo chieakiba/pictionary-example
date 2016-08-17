@@ -36,7 +36,7 @@ var pictionary = function () {
 
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
-        if (pickOne && users.length > 0) {
+        if (pickOne) {
             socket.emit('check this user', data);
         } else {
             users.push(data);

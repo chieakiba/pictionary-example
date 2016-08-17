@@ -22,7 +22,7 @@ io.on('connection', function (socket) {
 
     socket.on('check this user', function (users) {
         console.log('Show me what\'s inside:', users);
-        if (pickOne) {
+        if (users.canDraw == true) {
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
                     pickOne = false;
