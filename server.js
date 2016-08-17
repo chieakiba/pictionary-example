@@ -8,25 +8,30 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 
+//var pickOne = confirm('Would you like to be the drawer?');
+
 io.on('connection', function (socket) {
     console.log('Client connected');
 
     //how do you know when someone logs on? Need to store some data on the server. Right now the second person doesn't have anyway to know about the first person
 
-    socket.on('user', function (user) {
-        console.log('Who is the user?', user);
-        socket.emit('user', user);
-    })
-
-    socket.on('users', function (users) {
-        console.log('Show me the users', users);
-        socket.broadcast.emit('users', users);
+    socket.on('user joined', function (user) {
+        console.log('Who joined this game?', user);
+        socket.broadcast.emit('user joined', user);
     });
 
-//    socket.on('updatedUsers', function (users) {
-            //        console.log('What does the updated users array look like?', users);
-            //        socket.broadcast.emit('updatedUsers', users);
-            //    })
+    socket.on('check this user', function (users) {
+        console.log('Show me what\'s inside:', users);
+        if (pickOne) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].canDraw) {
+                    pickOne = false;
+                    users.push(user);
+                }
+            }
+        }
+        socket.broadcast.emit('users', users);
+    });
 
     socket.on('drawThis', function (drawThis) {
         socket.broadcast.emit('drawThis', drawThis);

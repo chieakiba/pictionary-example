@@ -15,6 +15,8 @@ var pictionary = function () {
     var drawerWord = $('#randomWord');
     var words = ["word", "letter", "number", "person", "pen", "class", "people", "sound", "water", "side", "place", "man", "men", "woman", "women", "boy", "girl", "year", "day", "week", "month", "name", "sentence", "line", "air", "land", "home", "hand", "house", "picture", "animal", "mother", "father", "brother", "sister", "world", "head", "page", "country", "question", "answer", "school", "plant", "food", "sun", "state", "eye", "city", "tree", "farm", "story", "sea", "night", "day", "life", "north", "south", "east", "west", "child", "children", "example", "paper", "music", "river", "car", "foot", "feet", "book", "science", "room", "friend", "idea", "fish", "mountain", "horse", "watch", "color", "face", "wood", "list", "bird", "body", "dog", "family", "song", "door", "product", "wind", "ship", "area", "rock", "order", "fire", "problem", "piece", "top", "bottom", "king", "space"];
 
+    var numUsers = 0;
+
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
@@ -27,26 +29,19 @@ var pictionary = function () {
         canDraw: pickOne
     });
 
-    socket.emit('user', {
+    socket.emit('user joined', {
         user: user,
         canDraw: pickOne
     });
 
-    socket.on('user', function (data) {
-        if (pickOne) {
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].canDraw) {
-                    alert('Sorry! Someone chose to be the drawer already!');
-                    this.user.canDraw = false
-                }
-            }
-            users.push(user);
-            socket.emit('users', users);
+    socket.on('user joined', function (data) {
+        console.log(data, 'joined the game!');
+        if (pickOne && users.length > 0) {
+            socket.emit('check this user', data);
+        } else {
+            users.push(data);
+            console.log('What\'s inside this data?', data);
         }
-    });
-
-    socket.on('users', function (data) {
-        console.log('What does the users array look like?', data);
     });
 
     socket.emit('drawThis', drawThis);
