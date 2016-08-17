@@ -19,7 +19,6 @@ var pictionary = function () {
     var user = prompt('Enter your username');
     var users = [];
 
-
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
 
@@ -31,12 +30,13 @@ var pictionary = function () {
     socket.emit('users', users);
 
     socket.on('users', function (data) {
+        users.push(data);
         console.log('users before', users, data);
         if (pickOne && users.length != 0) {
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
                     alert('Sorry someone chose to be the drawer before you.');
-                    this.pickOne = false;
+                    pickOne = false;
                     users.push({
                         user: user,
                         canDraw: pickOne
@@ -45,15 +45,13 @@ var pictionary = function () {
                     console.log('What does the user data look like now?', users);
                     break;
                 }
-
             }
-
         }
         socket.on('updatedUsers', function (data) {
             users.push(data);
             drawThis.append('Draw this word: ');
-            //Function to pick random words in the array
-            var randomWord = words[Math.floor(Math.random() * words.length)];
+
+            drawerWord.append(randomWord);
             socket.emit('randomWord', randomWord);
             //Listens to the randomWord socket broadcast to append the generated random word
             socket.on('randomWord', function (data) {
@@ -75,12 +73,10 @@ var pictionary = function () {
     //        //            console.log('What does the array look like after nobody decided to be the drawer?', users);
     //    }
 
-
-
-
-    //    drawerWord.append(randomWord);
     socket.emit('drawThis', drawThis);
 
+    //Function to pick random words in the array
+    var randomWord = words[Math.floor(Math.random() * words.length)];
 
     //Listens to the drawThis socket broadcast to append 'Draw this word: '
     socket.on('drawThis', function (data) {
@@ -119,12 +115,12 @@ var pictionary = function () {
                 y: event.pageY - offset.top
             };
 
-            //if user's mouse is clicked, draw in the canvas
+            //If user's mouse is clicked, draw in the canvas
             if (drawing && pickOne) {
                 draw(position);
                 socket.emit('draw', position);
             } else {
-                //if the user's mouse is not clicked then unbind the event listeners
+                //If the user's mouse is not clicked then unbind the event listeners
                 canvas.unbind('mousedown', 'mousemove');
             }
         });
