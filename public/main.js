@@ -31,13 +31,13 @@ var pictionary = function () {
     socket.emit('users', users);
 
     socket.on('users', function (data) {
-//        users.push(data);
+        //        users.push(data);
         console.log('users before', users, data);
-        if (pickOne && users.length != 0) {
+        if (this.pickOne && users.length != 0) {
             for (var i = 0; i < users.length; i++) {
                 if (users[i].canDraw) {
                     alert('Sorry someone chose to be the drawer before you.');
-                    pickOne = false;
+                    this.pickOne = false;
                     users.push({
                         user: user,
                         canDraw: pickOne
