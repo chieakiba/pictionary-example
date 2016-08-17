@@ -37,11 +37,31 @@ var pictionary = function () {
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
         if (pickOne) {
+            users.push(data);
             socket.emit('check this user', data);
         } else {
             users.push(data);
             console.log('What\'s inside this data?', data);
         }
+    });
+
+
+    // rectifies who should officially be able to draw
+    // the rule is the first user will be able to draw
+    var scoobyDraw = true;
+
+    socket.on('users', function (data) {
+        console.log('Who is in the room?', data);
+        // get the user
+        // check to see his credentials allow him to draw
+        for (var i = 0; i < data.length; i++) {
+            console.log(user, data[i].user, (user == data[i].user), 'user testing')
+            if (user == data[i].user) {
+                scoobyDraw = data[i].canDraw;
+            }
+
+        }
+
     });
 
     socket.emit('drawThis', drawThis);
@@ -52,9 +72,6 @@ var pictionary = function () {
     //Listens to the drawThis socket broadcast to append 'Draw this word: '
     socket.on('drawThis', function (data) {
         drawThis.append('Draw this word: ');
-        socket.on('users', function (data) {
-            users = data;
-        });
     });
 
     //When user draws in the canvas
@@ -78,6 +95,7 @@ var pictionary = function () {
     canvas.on('mousedown', function () {
         drawing = true;
 
+
         //When user moves the mouse
         canvas.on('mousemove', function (event) {
             var offset = canvas.offset();
@@ -87,7 +105,7 @@ var pictionary = function () {
             };
 
             //If user's mouse is clicked, draw in the canvas
-            if (drawing && pickOne) {
+            if (drawing && scoobyDraw) {
                 draw(position);
                 socket.emit('draw', position);
             } else {

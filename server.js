@@ -7,7 +7,7 @@ app.use(express.static('public'));
 
 var server = http.Server(app);
 var io = socket_io(server);
-
+var crazy = [];
 //var pickOne = confirm('Would you like to be the drawer?');
 
 io.on('connection', function (socket) {
@@ -16,23 +16,35 @@ io.on('connection', function (socket) {
     //how do you know when someone logs on? Need to store some data on the server. Right now the second person doesn't have anyway to know about the first person
 
     socket.on('user joined', function (user) {
+        crazy.push(user);
         console.log('Who joined this game?', user);
         socket.broadcast.emit('user joined', user);
     });
 
     socket.on('check this user', function (users) {
-        console.log('Show me what\'s inside:', users);
-        if (users.canDraw) {
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].canDraw) {
-                    pickOne = false;
-                    users.push(user);
-                } else {
-                    users.push(user);
+        console.log(crazy, 'CRAZY');
+        // strip yo of your status
+        if (crazy.length > 0) {
+            //            var firstUser = 0; // assume that the first crazy user is a drawer
+            for (var firstUser = 0; firstUser < crazy.length; firstUser++) {
+                if (crazy[firstUser].canDraw) {
+                    //                    crazy[k].canDraw = false; // get rid of the other users' ability to draw
+                    break;
                 }
             }
+
+            // check to see how many others "can draw";
+            for (var k = 0; k < crazy.length; k++) {
+                if (crazy[firstUser].canDraw && k != firstUser) {
+                    crazy[k].canDraw = false; // get rid of the other users' ability to draw
+                }
+            }
+
+            // new Crazy values
+            console.log("NEW CRAZE", crazy);
+
         }
-        socket.broadcast.emit('users', users);
+        socket.broadcast.emit('users', crazy);
     });
 
     socket.on('drawThis', function (drawThis) {
