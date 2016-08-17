@@ -45,7 +45,6 @@ var pictionary = function () {
         }
     });
 
-
     // rectifies who should officially be able to draw
     // the rule is the first user will be able to draw
     var scoobyDraw = true;
@@ -59,9 +58,7 @@ var pictionary = function () {
             if (user == data[i].user) {
                 scoobyDraw = data[i].canDraw;
             }
-
         }
-
     });
 
     socket.emit('drawThis', drawThis);

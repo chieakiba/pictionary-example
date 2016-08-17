@@ -8,12 +8,9 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 var crazy = [];
-//var pickOne = confirm('Would you like to be the drawer?');
 
 io.on('connection', function (socket) {
     console.log('Client connected');
-
-    //how do you know when someone logs on? Need to store some data on the server. Right now the second person doesn't have anyway to know about the first person
 
     socket.on('user joined', function (user) {
         crazy.push(user);
@@ -23,12 +20,9 @@ io.on('connection', function (socket) {
 
     socket.on('check this user', function (users) {
         console.log(crazy, 'CRAZY');
-        // strip yo of your status
         if (crazy.length > 0) {
-            //            var firstUser = 0; // assume that the first crazy user is a drawer
             for (var firstUser = 0; firstUser < crazy.length; firstUser++) {
                 if (crazy[firstUser].canDraw) {
-                    //                    crazy[k].canDraw = false; // get rid of the other users' ability to draw
                     break;
                 }
             }
@@ -42,7 +36,6 @@ io.on('connection', function (socket) {
 
             // new Crazy values
             console.log("NEW CRAZE", crazy);
-
         }
         socket.broadcast.emit('users', crazy);
     });
