@@ -1,4 +1,4 @@
-//global variables
+//Global variables
 var socket = io();
 
 var pictionary = function () {
@@ -21,8 +21,9 @@ var pictionary = function () {
     //Function to pick random words in the array
     var randomWord = words[Math.floor(Math.random() * words.length)];
 
-    // Establishes who should officially be able to draw
+    //Establishes who should officially be able to draw and guess
     var officialDrawer = true;
+    var officialGuesser = true;
 
     users.push({
         user: user,
@@ -36,18 +37,19 @@ var pictionary = function () {
 
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
-        if (pickOne) {
-            users.push(data);
+        if (data.pickOne) {
+            //            users.push(data);
             socket.emit('check this user', data);
         } else {
-            users.push(data);
+            //            users.push(data);
             console.log('What\'s inside this data?', data);
+            socket.emit('chose not to be a drawer', data);
         }
     });
 
     socket.on('users', function (data) {
         console.log('Who is in the room?', data);
-        // Checks to see if the users' credentials allow him/her to draw
+        //Checks to see if the users' credentials allow him/her to draw
         for (var i = 0; i < data.length; i++) {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
@@ -70,12 +72,14 @@ var pictionary = function () {
         socket.on('randomWord', function (data) {
             drawerWord.append(data);
         });
+    } else {
+        //Listens to the event when there is a drawer already
+        socket.on('not drawer', function (data) {
+            alert(data);
+        });
     };
 
-    //Listens to the event when there is a drawer already
-    socket.on('not drawer', function (data) {
-        alert(data);
-    });
+
 
     //When user draws in the canvas
     var draw = function (position) {

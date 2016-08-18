@@ -25,10 +25,10 @@ io.on('connection', function (socket) {
                 }
             }
 
-            // Check to see how many other users chose to be the drawer
+            //Check to see how many other users chose to be the drawer
             for (var k = 0; k < curatedUsers.length; k++) {
                 if (curatedUsers[j].canDraw && k != j) {
-                    curatedUsers[k].canDraw = false; // gets rid of the other users' ability to draw
+                    curatedUsers[k].canDraw = false; //Gets rid of the other users' ability to draw
                 }
             }
 
@@ -39,6 +39,11 @@ io.on('connection', function (socket) {
             console.log("New array", curatedUsers);
         }
         socket.broadcast.emit('users', curatedUsers);
+    });
+
+    socket.on('chose not to be a drawer', function (data) {
+        console.log('Double check this person', data);
+        socket.broadcast.emit('should be a guesser', data);
     });
 
     socket.on('drawThis', function (drawThis) {
