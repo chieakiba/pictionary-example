@@ -46,6 +46,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('should be a guesser', data);
     });
 
+    socket.on('final user array', function (finalizedList) {
+        console.log('Show me the finalized list', finalizedList);
+        socket.broadcast.emit('final list', finalizedList);
+    });
+
     socket.on('drawThis', function (drawThis) {
         socket.broadcast.emit('drawThis', drawThis);
     });

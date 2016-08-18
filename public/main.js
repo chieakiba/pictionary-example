@@ -14,6 +14,7 @@ var pictionary = function () {
     //Have users enter their name
     var user = prompt('Enter your username');
     var users = [];
+    var finalizedList = [];
 
     //Have users pick whether they want to be a drawer or guesser
     var pickOne = confirm('Would you like to be the drawer?');
@@ -58,12 +59,17 @@ var pictionary = function () {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
+                finalizedList.push(data);
                 //Emits the 'Draw this word: ' and randomWord function to server
                 socket.emit('drawThis', 'Draw this word: ');
                 socket.emit('randomWord', randomWord);
             }
         }
-        if (officialDrawer) {
+        socket.emit('final user array', finalizedList);
+    });
+
+    socket.on('final list', function (data) {
+        if (data.officialDrawer) {
             //Listens to the drawThis socket broadcast to append 'Draw this word: '
             socket.on('drawThis', function (data) {
                 drawThis.append(data);
@@ -79,7 +85,7 @@ var pictionary = function () {
                 alert(data);
             });
         };
-    });
+    })
 
 
 
