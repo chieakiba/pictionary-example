@@ -31,6 +31,8 @@ io.on('connection', function (socket) {
                     curatedUsers[k].canDraw = false; // gets rid of the other users' ability to draw
                 }
             }
+
+            //Emits a message to the user who can't draw
             socket.broadcast.emit('not drawer', 'Sorry! Someone else already chose to draw!');
 
             //New curatedUsers array
