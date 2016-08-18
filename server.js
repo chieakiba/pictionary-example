@@ -35,9 +35,13 @@ io.on('connection', function (socket) {
             }
 
             //New curatedUsers array
-            console.log("Ner array", curatedUsers);
+            console.log("New array", curatedUsers);
         }
         socket.broadcast.emit('users', curatedUsers);
+    });
+
+    socket.on('you are not the drawer', function (data) {
+        socket.emit('not drawer', data);
     });
 
     socket.on('drawThis', function (drawThis) {
