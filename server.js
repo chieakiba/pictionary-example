@@ -33,15 +33,12 @@ io.on('connection', function (socket) {
                     curatedUsers[k].canDraw = false; // gets rid of the other users' ability to draw
                 }
             }
+            socket.emit('not drawer', 'Sorry! Someone else already chose to draw!');
 
             //New curatedUsers array
             console.log("New array", curatedUsers);
         }
         socket.broadcast.emit('users', curatedUsers);
-    });
-
-    socket.on('you are not the drawer', function (data) {
-        socket.emit('not drawer', data);
     });
 
     socket.on('drawThis', function (drawThis) {
