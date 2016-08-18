@@ -39,10 +39,11 @@ var pictionary = function () {
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
         if (!pickOne) {
+            users.push(data);
             socket.emit('chose not to be a drawer', data);
         }
         if (data.canDraw) {
-//            users.push(data);
+            users.push(data);
             console.log('What\'s inside this data?', data);
             socket.emit('check this user', data);
         }
