@@ -50,6 +50,11 @@ var pictionary = function () {
         }
     });
 
+    socket.on('should be a guesser', function (data) {
+        console.log('what is inside', data);
+        drawing = false;
+    });
+
     socket.on('users', function (data) {
         console.log('Who is in the room?', data);
         //Checks to see if the users' credentials allow him/her to draw
@@ -57,22 +62,20 @@ var pictionary = function () {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
-
-                //Emits the 'Draw this word: ' and randomWord function to server
-                socket.emit('drawThis', 'Draw this word: ');
-                socket.emit('randomWord', randomWord);
             }
             finalizedList.push(data);
             socket.emit('final user array', finalizedList);
         }
-        socket.on('should be a guesser', function (data) {
-            console.log('what is inside', data);
-            drawing = false;
-        });
     });
+
+
 
     socket.on('final list', function (data) {
         if (data.canDraw) {
+            //Emits the 'Draw this word: ' and randomWord function to server
+            socket.emit('drawThis', 'Draw this word: ');
+            socket.emit('randomWord', randomWord);
+
             //Listens to the drawThis socket broadcast to append 'Draw this word: '
             socket.on('drawThis', function (data) {
                 drawThis.append(data);
