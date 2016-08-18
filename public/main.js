@@ -59,11 +59,14 @@ var pictionary = function () {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
-                finalizedList.push(data);
+
                 //Emits the 'Draw this word: ' and randomWord function to server
                 socket.emit('drawThis', 'Draw this word: ');
                 socket.emit('randomWord', randomWord);
+            } else {
+                drawing = false;
             }
+            finalizedList.push(data);
             socket.emit('final user array', finalizedList);
         }
         socket.on('final list', function (data) {
