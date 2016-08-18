@@ -54,26 +54,27 @@ var pictionary = function () {
                 officialDrawer = data[i].canDraw;
             }
         }
-        if (officialDrawer) {
-            //Listens to the drawThis socket broadcast to append 'Draw this word: '
-            socket.on('drawThis', function (data) {
-                drawThis.append(data);
-            });
-
-            //Listens to the randomWord socket broadcast to append the randomly selected word from the words array
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
-            });
-        } else {
-            socket.on('not drawer', function (data) {
-                alert(data);
-            });
-        };
     });
 
     //Emits the 'Draw this word: ' and randomWord function to server
     socket.emit('drawThis', 'Draw this word: ');
     socket.emit('randomWord', randomWord);
+
+    if (officialDrawer) {
+        //Listens to the drawThis socket broadcast to append 'Draw this word: '
+        socket.on('drawThis', function (data) {
+            drawThis.append(data);
+        });
+
+        //Listens to the randomWord socket broadcast to append the randomly selected word from the words array
+        socket.on('randomWord', function (data) {
+            drawerWord.append(data);
+        });
+    } else {
+        socket.on('not drawer', function (data) {
+            alert(data);
+        });
+    };
 
     //When user draws in the canvas
     var draw = function (position) {

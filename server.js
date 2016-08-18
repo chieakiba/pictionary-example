@@ -14,12 +14,10 @@ io.on('connection', function (socket) {
 
     socket.on('user joined', function (user) {
         curatedUsers.push(user);
-        console.log('Who joined this game?', user);
         socket.broadcast.emit('user joined', user);
     });
 
     socket.on('check this user', function (users) {
-        console.log(curatedUsers, 'Show what\'s in this list');
         if (curatedUsers.length > 0) {
             for (var j = 0; j < curatedUsers.length; j++) {
                 if (curatedUsers[j].canDraw) {
@@ -33,7 +31,7 @@ io.on('connection', function (socket) {
                     curatedUsers[k].canDraw = false; // gets rid of the other users' ability to draw
                 }
             }
-            socket.emit('not drawer', 'Sorry! Someone else already chose to draw!');
+            socket.broadcast.emit('not drawer', 'Sorry! Someone else already chose to draw!');
 
             //New curatedUsers array
             console.log("New array", curatedUsers);
