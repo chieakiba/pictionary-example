@@ -47,7 +47,7 @@ var pictionary = function () {
 
             socket.emit('chose not to be a drawer', data);
             socket.on('should be a guesser', function (data) {
-                socket.emit('user joined', data);
+                console.log('what is inside', data);
             });
         }
     });
@@ -64,12 +64,13 @@ var pictionary = function () {
                 socket.emit('drawThis', 'Draw this word: ');
                 socket.emit('randomWord', randomWord);
             }
+            socket.emit('final user array', finalizedList);
         }
-        socket.emit('final user array', finalizedList);
+
     });
 
     socket.on('final list', function (data) {
-        if (data.officialDrawer) {
+        if (data.canDraw) {
             //Listens to the drawThis socket broadcast to append 'Draw this word: '
             socket.on('drawThis', function (data) {
                 drawThis.append(data);
