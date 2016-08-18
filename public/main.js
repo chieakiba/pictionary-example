@@ -37,10 +37,7 @@ var pictionary = function () {
     });
 
     if (!pickOne) {
-        socket.emit('chose not to be a drawer', {
-            user: user,
-            canDraw: pickOne
-        });
+        socket.emit('chose not to be a drawer', users);
     };
 
     socket.on('user joined', function (data) {
