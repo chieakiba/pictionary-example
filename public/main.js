@@ -24,7 +24,6 @@ var pictionary = function () {
 
     //Establishes who should officially be able to draw and guess
     var officialDrawer = true;
-    var officialGuesser = true;
 
     users.push({
         user: user,
@@ -36,22 +35,11 @@ var pictionary = function () {
         canDraw: pickOne
     });
 
-    if (!pickOne) {
-        socket.emit('chose not to be a drawer', users);
-    };
-
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
         if (data.canDraw) {
-            users.push(data);
-            console.log('What\'s inside this data?', data);
             socket.emit('check this user', data);
         }
-
-    });
-
-    socket.on('should be a guesser', function (data) {
-        console.log('what is inside', data);
     });
 
     socket.on('users', function (data) {
@@ -62,34 +50,28 @@ var pictionary = function () {
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
             }
-        }
-        finalizedList.push(data);
-        socket.emit('final user array', finalizedList);
+        };
     });
 
     //Emits the 'Draw this word: ' and randomWord function to server
     socket.emit('drawThis', 'Draw this word: ');
     socket.emit('randomWord', randomWord);
 
-    socket.on('final list', function (data) {
-        if (data.canDraw) {
+    if (officialDrawer) {
+        //Listens to the drawThis socket broadcast to append 'Draw this word: '
+        socket.on('drawThis', function (data) {
+            drawThis.append(data);
+        });
 
-            socket.on('draw', draw);
-            //Listens to the drawThis socket broadcast to append 'Draw this word: '
-            socket.on('drawThis', function (data) {
-                drawThis.append(data);
-            });
+        //Listens to the randomWord socket broadcast to append the randomly selected word from the words array
+        socket.on('randomWord', function (data) {
+            drawerWord.append(data);
+        });
+    };
 
-            //Listens to the randomWord socket broadcast to append the randomly selected word from the words array
-            socket.on('randomWord', function (data) {
-                drawerWord.append(data);
-            });
-        } else {
-            //Listens to the event when there is a drawer already
-            socket.on('not drawer', function (data) {
-                alert(data);
-            });
-        };
+    //Listens to the event when there is a drawer already
+    socket.on('not drawer', function (data) {
+        alert(data);
     });
 
     //When user draws in the canvas
@@ -132,7 +114,7 @@ var pictionary = function () {
             }
         });
     });
-
+    socket.on('draw', draw);
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {
