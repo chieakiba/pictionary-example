@@ -70,10 +70,12 @@ var pictionary = function () {
         socket.on('randomWord', function (data) {
             drawerWord.append(data);
         });
-    } else {
+    };
+
+    if (!officialDrawer) {
         socket.on('not drawer', function (data) {
-            alert(data);
-        });
+            console.log(data);
+        })
     };
 
     //When user draws in the canvas
