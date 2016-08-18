@@ -38,21 +38,19 @@ var pictionary = function () {
 
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
+        if (!pickOne) {
+            socket.emit('chose not to be a drawer', data);
+        }
         if (data.canDraw) {
-            users.push(data);
+//            users.push(data);
             console.log('What\'s inside this data?', data);
             socket.emit('check this user', data);
-        } else {
-            //            users.push(data);
-
-            socket.emit('chose not to be a drawer', data);
-
         }
+
     });
 
     socket.on('should be a guesser', function (data) {
         console.log('what is inside', data);
-        drawing = false;
     });
 
     socket.on('users', function (data) {
@@ -63,12 +61,10 @@ var pictionary = function () {
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
             }
-            finalizedList.push(data);
-            socket.emit('final user array', finalizedList);
         }
+        finalizedList.push(data);
+        socket.emit('final user array', finalizedList);
     });
-
-
 
     socket.on('final list', function (data) {
         if (data.canDraw) {
