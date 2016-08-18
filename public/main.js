@@ -72,11 +72,10 @@ var pictionary = function () {
         });
     };
 
-    if (!officialDrawer) {
-        socket.on('not drawer', function (data) {
-            console.log(data);
-        })
-    };
+    //Listens to the event when there is a drawer already
+    socket.on('not drawer', function (data) {
+        alert(data);
+    });
 
     //When user draws in the canvas
     var draw = function (position) {
