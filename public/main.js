@@ -67,12 +67,14 @@ var pictionary = function () {
         socket.emit('final user array', finalizedList);
     });
 
+    //Emits the 'Draw this word: ' and randomWord function to server
+    socket.emit('drawThis', 'Draw this word: ');
+    socket.emit('randomWord', randomWord);
+
     socket.on('final list', function (data) {
         if (data.canDraw) {
-            //Emits the 'Draw this word: ' and randomWord function to server
-            socket.emit('drawThis', 'Draw this word: ');
-            socket.emit('randomWord', randomWord);
 
+            socket.on('draw', draw);
             //Listens to the drawThis socket broadcast to append 'Draw this word: '
             socket.on('drawThis', function (data) {
                 drawThis.append(data);
@@ -89,9 +91,6 @@ var pictionary = function () {
             });
         };
     });
-
-
-
 
     //When user draws in the canvas
     var draw = function (position) {
@@ -133,7 +132,7 @@ var pictionary = function () {
             }
         });
     });
-    socket.on('draw', draw);
+
 
     //Function for when user hits enter for the guess input
     var onKeyDown = function (event) {

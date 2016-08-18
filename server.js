@@ -43,7 +43,6 @@ io.on('connection', function (socket) {
 
     socket.on('chose not to be a drawer', function (data) {
         console.log('Double check this person', data);
-        curatedUsers.push(data);
         socket.broadcast.emit('should be a guesser', data);
     });
 
