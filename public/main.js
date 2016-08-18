@@ -37,7 +37,7 @@ var pictionary = function () {
 
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
-        if (data.pickOne) {
+        if (data.canDraw) {
             //            users.push(data);
             socket.emit('check this user', data);
         } else {
@@ -54,13 +54,12 @@ var pictionary = function () {
             console.log(user, data[i].user, (user == data[i].user), 'user testing')
             if (user == data[i].user) {
                 officialDrawer = data[i].canDraw;
+                //Emits the 'Draw this word: ' and randomWord function to server
+                socket.emit('drawThis', 'Draw this word: ');
+                socket.emit('randomWord', randomWord);
             }
         }
     });
-
-    //Emits the 'Draw this word: ' and randomWord function to server
-    socket.emit('drawThis', 'Draw this word: ');
-    socket.emit('randomWord', randomWord);
 
     if (officialDrawer) {
         //Listens to the drawThis socket broadcast to append 'Draw this word: '
