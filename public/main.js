@@ -38,12 +38,16 @@ var pictionary = function () {
     socket.on('user joined', function (data) {
         console.log(data, 'joined the game!');
         if (data.canDraw) {
-            //            users.push(data);
+            users.push(data);
+            console.log('What\'s inside this data?', data);
             socket.emit('check this user', data);
         } else {
             //            users.push(data);
-            console.log('What\'s inside this data?', data);
+
             socket.emit('chose not to be a drawer', data);
+            socket.on('should be a guesser', function (data) {
+                socket.emit('user joined', data);
+            });
         }
     });
 
